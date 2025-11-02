@@ -20,15 +20,14 @@ class PostResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'content' => $this->content,
-//            'featured_image' => $this->featured_image ? asset('storage/' . $this->featured_image) : null,
-            'featured_image' => return ResourceHelper::getFirstMediaOriginalUrl($this, 'image'),
+            'featured_image' => ResourceHelper::getFirstMediaOriginalUrl($this, 'featured_image'), // Also fixed the collection name here
 
             // Counts
             'likes_count' => $this->likes_count ?? $this->whenCounted('likes', 0),
             'comments_count' => $this->comments_count ?? $this->whenCounted('comments', 0),
 
-            // User relationship
-            'user' => UserResource::collection($this->whenLoaded('user')),
+            // User relationship - FIXED: use new UserResource for single relationship
+            'user' => new UserResource($this->whenLoaded('user')),
             'comments' => CommentResource::collection($this->whenLoaded('comments')),
             'likes' => LikeResource::collection($this->whenLoaded('likes')),
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),

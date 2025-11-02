@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Blog\Repositories;
+namespace Modules\Post\Repositories;
 
 
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -26,7 +26,7 @@ class PostRepository
             ->paginate($perPage);
     }
 
-    public function findById(int $id, array $with = []): ?Post
+    public function findById($id, array $with = []): ?Post
     {
         $query = $this->post->withCount(['likes', 'comments']);
 

@@ -7,8 +7,8 @@ use App\Traits\HttpResponse;
 use Illuminate\Http\Request;
 use Modules\Auth\Http\Requests\LoginRequest;
 use Modules\Auth\Http\Requests\SignUpRequest;
-use Modules\Auth\Http\Resources\LoginResource;
 use Modules\Auth\Services\AuthService;
+use Modules\Auth\transformers\LoginResource;
 use Modules\Auth\Transformers\UserResource;
 
 class AuthController extends Controller
@@ -32,20 +32,19 @@ class AuthController extends Controller
             return new LoginResource($result);
 
         } catch (\Exception $e) {
-            return $this->errorResponse(
-                message: $e->message
+            return $this->errorResponse($e->getMessage());
         }
     }
 
     /**
      * Login user
      */
-    public function login(LoginRequest $request): JsonResponse
+    public function login(LoginRequest $request)
     {
         try {
             $result = $this->authService->login($request->validated());
 
-            return new LoginResource($result);
+            return LoginResource::make($result);
 
         }catch (\Exception $exception){
             return $this->errorResponse($exception->getMessage());

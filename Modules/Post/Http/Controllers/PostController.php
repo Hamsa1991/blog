@@ -25,7 +25,7 @@ class PostController extends Controller
         return $this->paginatedResponse($posts, PostResource::class);
     }
 
-    public function show(int $id)
+    public function show($id)
     {
         try {
             $post = $this->postService->getPostById($id);

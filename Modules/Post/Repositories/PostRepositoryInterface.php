@@ -1,8 +1,8 @@
 <?php
 
-namespace Modules\Blog\Repositories;
+namespace Modules\Post\Repositories;
 
-use Modules\Blog\Entities\Post;
+use Modules\Post\Models\Post;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 

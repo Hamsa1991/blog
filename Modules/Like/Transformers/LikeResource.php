@@ -7,17 +7,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class LikeResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     */
-<?php
-
-namespace Modules\Like\Resources;
-
-    use Illuminate\Http\Resources\Json\JsonResource;
-
-class LikeResource extends JsonResource
-{
     public function toArray($request)
     {
         return [
@@ -39,4 +28,4 @@ class LikeResource extends JsonResource
         ];
     }
 }
-}
+
