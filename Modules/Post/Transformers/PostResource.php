@@ -5,6 +5,9 @@ namespace Modules\Post\Transformers;
 use App\Helpers\ResourceHelper;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Modules\Auth\Transformers\UserResource;
+use Modules\Comment\Transformers\CommentResource;
+use Modules\Like\Transformers\LikeResource;
 
 class PostResource extends JsonResource
 {
@@ -25,12 +28,7 @@ class PostResource extends JsonResource
             'comments_count' => $this->comments_count ?? $this->whenCounted('comments', 0),
 
             // User relationship
-            'user' => [
-                'id' => $this->user->id,
-                'name' => $this->user->name,
-                'email' => $this->user->email,
-                'joined_at' => $this->user->created_at->format('M Y'),
-            ],
+            'user' => UserResource::collection($this->whenLoaded('user')),
             'comments' => CommentResource::collection($this->whenLoaded('comments')),
             'likes' => LikeResource::collection($this->whenLoaded('likes')),
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
