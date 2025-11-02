@@ -1,0 +1,6 @@
+{
+    "Auth": true,
+    "Comment": true,
+    "Post": true,
+    "Like": true
+}
