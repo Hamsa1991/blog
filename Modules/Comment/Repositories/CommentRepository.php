@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Modules\Comment\Repositories;
+namespace Modules\Comment\Repositories;
 
-use App\Modules\Comment\Models\Comment;
-use App\Modules\Comment\Repositories\Contracts\CommentRepositoryInterface;
-use App\Modules\Post\Models\Post;
-use App\Modules\User\Models\User;
+use Modules\Comment\Models\Comment;
+use Modules\Comment\Repositories\CommentRepositoryInterface;
+use Modules\Post\Models\Post;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class CommentRepository implements CommentRepositoryInterface
@@ -17,12 +16,12 @@ class CommentRepository implements CommentRepositoryInterface
 /**
  * Get paginated comments for a post
  */
-public function getPostComments(int $postId, int $perPage = 15): LengthAwarePaginator
+public function getPostComments(int $postId)
 {
     return $this->comment->with('user')
         ->where('post_id', $postId)
         ->orderBy('created_at', 'desc')
-        ->paginate($perPage);
+        ->paginate(15);
 }
 
 public function create(array $data): Comment

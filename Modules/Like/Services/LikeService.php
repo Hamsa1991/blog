@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Modules\Like\Services;
+namespace Modules\Like\Services;
 
-use App\Modules\Like\Models\Like;
-use App\Modules\Like\Repositories\Contracts\LikeRepositoryInterface;
-use App\Modules\Post\Repositories\Contracts\PostRepositoryInterface;
+use Modules\Like\Models\Like;
+use Modules\Like\Repositories\LikeRepository;
+use Modules\Post\Repositories\PostRepository;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
@@ -12,8 +12,8 @@ use Illuminate\Database\Eloquent\Collection;
 class LikeService
 {
     public function __construct(
-        private LikeRepositoryInterface $likeRepository,
-        private PostRepositoryInterface $postRepository
+        private LikeRepository $likeRepository,
+        private PostRepository $postRepository
     ) {}
 
 /**
@@ -38,7 +38,7 @@ public function toggleLike(int $postId, int $userId): array
 /**
  * Get like count for a post
  */
-public function getPostLikes(int $postId): int
+public function getPostLikes($postId): int
 {
     if (!$this->postRepository->findById($postId)) {
         throw new ModelNotFoundException('Post not found');

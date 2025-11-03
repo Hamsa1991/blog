@@ -11,4 +11,9 @@ Route::prefix('posts')->group(function () {
     Route::get('/{id}', [PostController::class, 'show'])
         ->name('posts.show');
 
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::post('/', [PostController::class, 'store'])
+            ->name('posts.store');
+    });
+
 });

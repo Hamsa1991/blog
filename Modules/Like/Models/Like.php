@@ -5,6 +5,7 @@ namespace Modules\Like\Models;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\Post\Models\Post;
 
 // use Modules\Like\Database\Factories\LikeFactory;

@@ -7,6 +7,7 @@ Route::prefix('auth')->group(function () {
     // Public
     Route::post('signup', [AuthController::class, 'signup']);
     Route::post('login', [AuthController::class, 'login']);
+    Route::post('verify/{id}', [AuthController::class, 'verifyEmail']);
 
     // Protected
     Route::middleware('auth:sanctum')->group(function () {

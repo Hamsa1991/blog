@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Modules\Comment\Http\Controllers\CommentController;
 
 Route::prefix('posts')->group(function () {
-    Route::get('/{id}/comments', [CommentController::class, 'getPostComments'])
+    Route::get('/{postId}/comments', [CommentController::class, 'getPostComments'])
         ->name('posts.comments.index');
 });
 

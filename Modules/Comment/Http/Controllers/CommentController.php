@@ -3,7 +3,7 @@
 namespace Modules\Comment\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Modules\Comment\Services\CommentService;
+use Modules\Comment\Services\CommentService;
 use App\Traits\HttpResponse;
 use Modules\Comment\Http\Requests\CommentRequest;
 use Modules\Comment\Transformers\CommentResource;
@@ -18,17 +18,17 @@ class CommentController extends Controller
         $this->commnetService = $commnetService;
     }
 
-    public function getPostComments(int $id)
+    public function getPostComments($postId)
     {
         try {
-            $post = $this->commnetService->getPostComments($id, 15)
-        return $this->successResponse(CommentResource::make($post));
+            $comments = $this->commnetService->getPostComments($postId);
+            return $this->successResponse(CommentResource::collection($comments));
         } catch (\Exception $exception) {
             return $this->errorResponse($exception->getMessage());
         }
     }
 
-    public function store(CommentRequest $request, $id)
+    public function store($id, CommentRequest $request)
     {
         try {
             $comment = $this->commnetService->createComment($request->validated(), $id);

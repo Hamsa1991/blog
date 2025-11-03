@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Modules\Comment\Services;
+namespace Modules\Comment\Services;
 
-use App\Modules\Comment\Models\Comment;
-use App\Modules\Comment\Repositories\CommentRepository;
-use App\Modules\Post\Repositories\PostRepository;
+use Modules\Comment\Models\Comment;
+use Modules\Comment\Repositories\CommentRepository;
+use Modules\Post\Repositories\PostRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -16,14 +16,14 @@ class CommentService
     ) {}
 
 
-public function getPostComments(int $postId, int $perPage = 15): LengthAwarePaginator
+public function getPostComments(int $postId)
 {
 
     if (!$this->postRepository->findById($postId)) {
         throw new ModelNotFoundException('Post not found');
     }
 
-    return $this->commentRepository->getPostComments($postId, $perPage);
+    return $this->commentRepository->getPostComments($postId);
 }
 
 public function createComment(array $data, int $id): Comment
@@ -36,7 +36,7 @@ public function createComment(array $data, int $id): Comment
 
     $commentData = [
         'user_id' => auth()->user()->id,
-        'post_id' => $$id,
+        'post_id' => $id,
         'body' => $data['body'],
     ];
 

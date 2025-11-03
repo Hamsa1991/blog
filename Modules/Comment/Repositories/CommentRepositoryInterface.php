@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Modules\Comment\Repositories\Contracts;
+namespace Modules\Comment\Repositories;
 
-use App\Modules\Comment\Models\Comment;
+use Modules\Comment\Models\Comment;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -11,7 +11,7 @@ interface CommentRepositoryInterface
     /**
      * Get paginated comments for a specific post
      */
-    public function getPostComments(int $postId, int $perPage = 15): LengthAwarePaginator;
+    public function getPostComments(int $postId);
 
     /**
      * Create a new comment

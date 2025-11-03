@@ -3,6 +3,7 @@
 namespace Modules\Post\Repositories;
 
 
+use App\Services\ImageService;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
@@ -35,5 +36,12 @@ class PostRepository
         }
 
         return $query->find($id);
+    }
+    public function createPost($data){
+        if (isset($data['image'])) {
+            $imageService = new ImageService($this->post, $data);
+            $imageService->storeOneMediaFromRequest('featured_image', 'featured_image');
+        }
+        return $this->post->create($data);
     }
 }

@@ -3,6 +3,7 @@
 namespace Modules\Post\Services;
 
 
+use App\Services\ImageService;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -25,5 +26,10 @@ class PostService
     public function getPostById($id)
     {
         return $this->postRepository->findById($id, ['user', 'comments.user', 'likes.user']);
+    }
+    public function createPost($data)
+    {
+        $data['user_id'] = auth()->user()->id;
+        return $this->postRepository->createPost($data);
     }
 }

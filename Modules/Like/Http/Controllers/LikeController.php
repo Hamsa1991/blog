@@ -3,7 +3,7 @@
 namespace Modules\Like\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Modules\Like\Services\LikeService;
+use Modules\Like\Services\LikeService;
 use App\Traits\HttpResponse;
 use Illuminate\Http\Request;
 use Modules\Like\Http\Requests\LikeRequest;
@@ -19,11 +19,11 @@ class LikeController extends Controller
         $this->likeService = $likeService;
     }
 
-    public function getPostLikes(int $id)
+    public function getPostLikes($id)
     {
         try {
-            $post = $this->likeService->getPostLikes($id, 15);
-            return $this->successResponse(LikeResource::make($post));
+            $likes = $this->likeService->getPostLikes($id);
+            return $this->successResponse($likes);
          }catch (\Exception $exception){
             return $this->errorResponse($exception->getMessage());
         }
@@ -31,8 +31,8 @@ class LikeController extends Controller
 
     public function toggleLike($id){
         try {
-            $comment = $this->likeService->toggleLike($id, auth()->user()->id);
-            return $this->successResponse(LikeResource::make($comment));
+            $data = $this->likeService->toggleLike($id, auth()->user()->id);
+            return $this->successResponse($data);
         }catch (\Exception $exception){
             return $this->errorResponse($exception->getMessage());
         }

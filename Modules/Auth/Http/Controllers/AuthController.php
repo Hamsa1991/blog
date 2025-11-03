@@ -70,7 +70,7 @@ class AuthController extends Controller
         try{
             $result = $this->authService->verifyEmail($id);
 
-            return new UserResource($result['user']);
+            return $this->successResponse($result);
 
         }catch (\Exception $exception){
             return $this->errorResponse($exception->getMessage());

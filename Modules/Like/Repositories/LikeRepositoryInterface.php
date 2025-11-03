@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Modules\Like\Repositories\Contracts;
+namespace Modules\Like\Repositories;
 
-use App\Modules\Like\Models\Like;
+use Modules\Like\Models\Like;
 use Illuminate\Database\Eloquent\Collection;
 
 interface LikeRepositoryInterface

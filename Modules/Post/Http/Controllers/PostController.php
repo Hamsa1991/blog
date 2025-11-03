@@ -5,6 +5,7 @@ namespace Modules\Post\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Traits\HttpResponse;
 use Illuminate\Http\Request;
+use Modules\Post\Http\Requests\PostRequest;
 use Modules\Post\Services\PostService;
 use Modules\Post\Transformers\PostResource;
 
@@ -31,6 +32,15 @@ class PostController extends Controller
             $post = $this->postService->getPostById($id);
             return $this->successResponse(PostResource::make($post));
         }catch (\Exception $exception){
+            return $this->errorResponse($exception->getMessage());
+        }
+    }
+    public function store(PostRequest $request)
+    {
+        try {
+            $post = $this->postService->createPost($request->validated());
+            return $this->successResponse(PostResource::make($post));
+        } catch (\Exception $exception) {
             return $this->errorResponse($exception->getMessage());
         }
     }

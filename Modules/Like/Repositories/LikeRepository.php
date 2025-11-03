@@ -1,22 +1,45 @@
 <?php
 
-namespace App\Modules\Like\Repositories;
+namespace Modules\Like\Repositories;
 
-use App\Modules\Like\Models\Like;
-use App\Modules\Like\Repositories\Contracts\LikeRepositoryInterface;
-use App\Modules\Post\Models\Post;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Pagination\LengthAwarePaginator;
+use Modules\Like\Models\Like;
+use Modules\Like\Repositories\LikeRepositoryInterface;
+use Modules\Post\Models\Post;
 
-class EloquentLikeRepository implements LikeRepositoryInterface
+class LikeRepository implements LikeRepositoryInterface
 {
     public function __construct(
         private Like $like
     ) {}
 
-/**
- * Toggle like for a post (like/unlike)
- */
+public function likePost(int $userId, int $postId): bool
+{
+    // Check if user has already liked the post
+    if ($this->userHasLikedPost($userId, $postId)) {
+        return false;
+    }
+
+    // Create new like
+    $like = new Like();
+    $like->user_id = $userId;
+    $like->post_id = $postId;
+
+    return $like->save();
+}
+
+public function unlikePost(int $userId, int $postId): bool
+{
+    $like = $this->like
+        ->where('user_id', $userId)
+        ->where('post_id', $postId)
+        ->first();
+
+    if ($like) {
+        return $like->delete();
+    }
+
+    return false;
+}
 public function toggleLike(int $userId, int $postId): array
 {
     $existingLike = $this->userHasLikedPost($userId, $postId);
@@ -40,7 +63,7 @@ public function toggleLike(int $userId, int $postId): array
 /**
  * Get like count for a post
  */
-public function getLikeCount(int $postId): int
+public function getLikeCount($postId): int
 {
     return $this->like->where('post_id', $postId)->count();
 }
@@ -59,5 +82,8 @@ public function canUserLikeOwnPost(int $userId, int $postId): bool
     return $post->user_id !== $userId;
 }
 
+public function userHasLikedPost(int $userId, int $postId): bool
+{
+    return $this->like->where('post_id', $postId)->count() >= 1;
 }
 }
